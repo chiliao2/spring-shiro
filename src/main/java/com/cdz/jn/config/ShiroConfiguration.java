@@ -1,5 +1,7 @@
 package com.cdz.jn.config;
 
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -13,8 +15,13 @@ import java.util.Map;
 
 @Configuration
 public class ShiroConfiguration {
-    @Autowired
-    private MyShiroRealm myShiroRealm;
+
+    @Bean
+    public MyShiroRealm myShiroRealm() {
+        MyShiroRealm myShiroRealm = new MyShiroRealm();
+        myShiroRealm.setCacheManager(ehCacheManager());
+        return myShiroRealm;
+    }
 
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean() {
@@ -33,12 +40,13 @@ public class ShiroConfiguration {
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(myShiroRealm);
+        securityManager.setRealm(myShiroRealm());
         return securityManager;
     }
 
     /**
      * 启用权限注解
+     *
      * @return
      */
     @Bean
@@ -46,5 +54,12 @@ public class ShiroConfiguration {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager());
         return authorizationAttributeSourceAdvisor;
+    }
+
+    @Bean
+    public EhCacheManager ehCacheManager() {
+        EhCacheManager cacheManager = new EhCacheManager();
+        cacheManager.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
+        return cacheManager;
     }
 }

@@ -22,6 +22,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.37</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>1.4.0</version>
+        </dependency>
 
         <!--数据库支持,此处只提供mysql的数据库驱动，用户可根据自己需要添加驱及并添加相应数据库配置即可-->
         <dependency>
