@@ -37,6 +37,11 @@ public class ShiroConfiguration {
         return bean;
     }
 
+    /**
+     * 安全管理器
+     *
+     * @return
+     */
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -56,6 +61,11 @@ public class ShiroConfiguration {
         return authorizationAttributeSourceAdvisor;
     }
 
+    /**
+     * 增加缓存，授权的时候将不会每次调用
+     *
+     * @return
+     */
     @Bean
     public EhCacheManager ehCacheManager() {
         EhCacheManager cacheManager = new EhCacheManager();

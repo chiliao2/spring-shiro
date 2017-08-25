@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MyShiroRealm extends AuthorizingRealm {
-    private static final  Log log = LogFactory.getLog(MyShiroRealm.class);
+    private static final Log log = LogFactory.getLog(MyShiroRealm.class);
 
     @Autowired
     private UserRepository userRepository;
