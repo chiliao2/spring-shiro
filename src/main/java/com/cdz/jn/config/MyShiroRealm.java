@@ -3,6 +3,8 @@ package com.cdz.jn.config;
 import com.cdz.jn.entity.Role;
 import com.cdz.jn.entity.User;
 import com.cdz.jn.repository.UserRepository;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -19,6 +21,7 @@ import java.util.Set;
 
 @Component
 public class MyShiroRealm extends AuthorizingRealm {
+    private static final  Log log = LogFactory.getLog(MyShiroRealm.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -31,6 +34,7 @@ public class MyShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        log.info("授权开始...............");
         String userName = (String) super.getAvailablePrincipal(principalCollection);
         User user = userRepository.findByUsername(userName);
         if (user != null) {
@@ -40,6 +44,7 @@ public class MyShiroRealm extends AuthorizingRealm {
                 roleNames.add(r.getName());
             }
             simpleAuthorizationInfo.setRoles(roleNames);
+            log.info("授权结束...............");
             return simpleAuthorizationInfo;
         }
         return null;
